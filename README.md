@@ -55,7 +55,7 @@ Please follow the official Unsloth installation guides for your specific hardwar
 
 **2. The PEFT CPU Merging Environment**
 To prevent precision loss and dependency conflicts, the final weight merge is executed strictly on the CPU. You must create a second virtual environment (e.g., `venv_peft`) and install the exact CPU-only Torch packages and standard training stack. Using `uv` for speed, the installation commands are:
-```bash
+
 **For Linux/Mac:**
 ```bash
 # 1. Create the virtual environment named 'venv_peft'
@@ -69,10 +69,10 @@ pip install uv
 
 # 4. Install the specific CPU-only versions of Torch
 uv pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cpu](https://download.pytorch.org/whl/cpu)
-```
+
 # 5. Install standard, non-patched versions of the training stack
 uv pip install transformers peft datasets trl huggingface_hub
-
+```
 **For Windows:**
 ```bash
 # 1. Create the virtual environment named 'venv_peft'
