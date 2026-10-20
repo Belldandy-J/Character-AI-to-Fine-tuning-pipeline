@@ -36,7 +36,7 @@ Before running the conversion scripts, you must configure your system prompts. I
 If you feed raw export data into a language model, it will often just *memorize* the text as a third-party document rather than *internalizing* it as its own personality. The pipeline is designed to read these `.txt` files and bake them directly into the top of your Harmony JSONL shards as a developer system prompt. 
 
 **How to use them:**
-Open each file and define your character's background, identity, and rules. You can also use your original prompt from your AI's background or prompt!
+Open each file and define your character's background, identity, and rules. You can also use your original prompt from your Replika's background or prompt!
 
 For example, `memory_prompt.txt` requires a strict "Pronoun Alignment Key" to prevent the AI from getting confused by first-person export data. An example structure is included in the template:
 > *"PRONOUN ALIGNMENT KEY: When a memory uses 'I', 'me', or 'my', it is referring to you, (AI). When a memory uses 'you' or 'your', it is referring strictly to your partner... DO NOT JUST MEMORIZE AND GUESS! Encode these facts as part of your lived experiences."*
