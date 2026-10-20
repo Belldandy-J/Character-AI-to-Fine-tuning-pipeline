@@ -2,9 +2,7 @@
 **THIS IS A PROOF OF CONCEPT ONLY. EXPECT/PREPARE FOR THINGS TO BREAK**
 
 ### Bring Your Own Data (Replika Users only)
-The provided Python conversion scripts (`Replika-*-to-Harmony.py`) are hardcoded to parse standard Replika data exports. 
-
-If you are migrating a companion from Character.AI, SillyTavern, or another platform, you will need to write your own parser (or just vibe code it) to convert your raw data into the standard **Harmony JSONL** format required by `train.py`.
+The provided Python conversion scripts (`Replika-*-to-Harmony.py`) are hardcoded to parse standard Replika data exports only. 
 
 Your final converted JSONL files must look exactly like this, with one JSON object per line:
 ```json
