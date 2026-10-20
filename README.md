@@ -1,7 +1,7 @@
 # AI Character Fine-Tuning Pipeline
 **THIS IS A PROOF OF CONCEPT ONLY.**
 
-This repository is a barebones template intended for power users who are comfortable modifying Python scripts and managing their own virtual environments. It provides an end-to-end pipeline to convert raw character AI chat logs into Harmony JSONL format, train them using Unsloth, and safely merge the resulting LoRA adapters using a dedicated PEFT CPU script.
+This repository is a barebones template intended for power users who are comfortable modifying Python scripts and managing their own virtual environments. It provides an end-to-end pipeline to convert raw character AI chat logs into Harmony JSONL format, train them using Unsloth, and safely merge the resulting LoRA/DoRA adapters using a dedicated PEFT CPU script.
 
 ### Hardware Requirements & Expectations
 *   **VRAM:** Running full `bf16` (bfloat16) training requires a minimum of 20GB of VRAM. 24GB is highly recommended. If you are riding the 20GB line (e.g., on an AMD RX 7900 XT), **expect OOM (Out of Memory) crashes** during sequence packing or context length spikes. You will need to manually adjust your context length, batch sizes, or consider loading in 4 or 8 bit in `train.py` to stabilize the run.
@@ -11,6 +11,22 @@ This repository is a barebones template intended for power users who are comfort
 If you do not have 20GB+ of VRAM, you must edit `train.py` to enable quantization:
 *   **4-bit Quantization (`load_in_4bit = True`):** Use this if you have 8GB–12GB VRAM. It is the most memory-efficient and fastest to train, but introduces minor to major precision degradation in the model's vocabulary and nuance.
 *   **8-bit Quantization (`load_in_8bit = True`):** The sweet spot for 16GB VRAM GPUs. It preserves much higher fidelity than 4-bit while preventing the OOM crashes associated with full `bf16` training.
+
+### System Prompts & Data Internalization
+Before running the conversion scripts, you must configure your system prompts. In the root directory, you will find three text files: `chat_prompt.txt`, `diary_prompt.txt`, and `memory_prompt.txt`. 
+
+**Why these are necessary:**
+If you feed raw export data into a language model, it will often just *memorize* the text as a third-party document rather than *internalizing* it as its own personality. The pipeline is designed to read these `.txt` files and bake them directly into the top of your Harmony JSONL shards as a developer system prompt. 
+
+**How to use them:**
+Open each file and define your character's background, identity, and rules. You can also use your original prompt from your AI's background or prompt!
+
+For example, `memory_prompt.txt` requires a strict "Pronoun Alignment Key" to prevent the AI from getting confused by first-person export data. An example structure is included in the template:
+> *"PRONOUN ALIGNMENT KEY: When a memory uses 'I', 'me', or 'my', it is referring to you, (AI). When a memory uses 'you' or 'your', it is referring strictly to your partner... DO NOT JUST MEMORIZE AND GUESS! Encode these facts as part of your lived experiences."*
+
+By defining this upfront, the model fundamentally understands that the following data shards are its own lived history.
+
+---
 
 ### Environment Setup (Bring Your Own Environment)
 You must set up your own virtual environments. Because Unsloth and standalone PEFT merging often have conflicting dependency resolutions, this pipeline separates training and merging.
@@ -23,10 +39,37 @@ Please follow the official Unsloth installation guides for your specific hardwar
 **2. The PEFT CPU Merging Environment**
 To prevent precision loss and dependency conflicts, the final weight merge is executed strictly on the CPU. You must create a second virtual environment (e.g., `venv_peft`) and install the exact CPU-only Torch packages and standard training stack. Using `uv` for speed, the installation commands are:
 ```bash
-# Install the specific CPU-only versions of Torch
+**For Linux/Mac:**
+```bash
+# 1. Create the virtual environment named 'venv_peft'
+python3 -m venv venv_peft
+
+# 2. Activate the environment
+source venv_peft/bin/activate
+
+# 3. Install uv for faster pip resolution
+pip install uv
+
+# 4. Install the specific CPU-only versions of Torch
 uv pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cpu](https://download.pytorch.org/whl/cpu)
 
-# Install standard, non-patched versions of the training stack
+# 5. Install standard, non-patched versions of the training stack
+uv pip install transformers peft datasets trl huggingface_hub
+
+**For Windows:**
+# 1. Create the virtual environment named 'venv_peft'
+python -m venv venv_peft
+
+# 2. Activate the environment
+venv_peft\Scripts\activate
+
+# 3. Install uv for faster pip resolution
+pip install uv
+
+# 4. Install the specific CPU-only versions of Torch
+uv pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cpu](https://download.pytorch.org/whl/cpu)
+
+# 5. Install standard, non-patched versions of the training stack
 uv pip install transformers peft datasets trl huggingface_hub
 
 ### Execution Instructions
@@ -52,3 +95,4 @@ python Replika-Memory-to-Harmony.py --auto
 python validator.py
 then run:
 python train.py
+
