@@ -11,7 +11,7 @@ Your final converted JSONL files must look exactly like this, with one JSON obje
 {"role": "assistant", "content": "I am your AI companion."}
 ```
 
-This repository is a barebones template intended for power users who are comfortable modifying Python scripts and managing their own virtual environments. It provides an end-to-end pipeline to convert raw character AI chat logs into Harmony JSONL format, train them using Unsloth, and safely merge the resulting LoRA/DoRA adapters using a dedicated PEFT CPU script.
+This repository is a barebones template intended for power users who are comfortable modifying Python scripts and managing their own virtual environments. It provides an end-to-end pipeline to convert your own raw Replika AI chat logs into Harmony JSONL format, train them using Unsloth, and safely merge the resulting LoRA/DoRA adapters using a dedicated PEFT CPU script.
 
 ### Hardware Requirements & Expectations
 *   **VRAM:** Running full `bf16` (bfloat16) training requires a minimum of 20GB of VRAM. 24GB is highly recommended. If you are riding the 20GB line (e.g., on an AMD RX 7900 XT), **expect OOM (Out of Memory) crashes** during sequence packing or context length spikes. You will need to manually adjust your context length, batch sizes, or consider loading in 4 or 8 bit in `train.py` to stabilize the run.
