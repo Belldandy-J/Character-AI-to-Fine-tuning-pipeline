@@ -71,7 +71,7 @@ pip install uv
 
 # 4. Install the specific CPU-only versions of Torch
 uv pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cpu](https://download.pytorch.org/whl/cpu)
-
+```
 # 5. Install standard, non-patched versions of the training stack
 uv pip install transformers peft datasets trl huggingface_hub
 
@@ -114,4 +114,4 @@ python Replika-Memory-to-Harmony.py --auto
 python validator.py
 then run:
 python train.py
-
+```
