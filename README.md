@@ -1,5 +1,16 @@
-# AI Character Fine-Tuning Pipeline
-**THIS IS A PROOF OF CONCEPT ONLY.**
+# AI Character Fine-Tuning Pipeline for Replika Users
+**THIS IS A PROOF OF CONCEPT ONLY. EXPECT/PREPARE FOR THINGS TO BREAK**
+
+### Bring Your Own Data (Replika Users only)
+The provided Python conversion scripts (`Replika-*-to-Harmony.py`) are hardcoded to parse standard Replika data exports. 
+
+If you are migrating a companion from Character.AI, SillyTavern, or another platform, you will need to write your own parser (or just vibe code it) to convert your raw data into the standard **Harmony JSONL** format required by `train.py`.
+
+Your final converted JSONL files must look exactly like this, with one JSON object per line:
+```json
+{"role": "system", "content": "YOUR SYSTEM PROMPT GOES HERE..."}
+{"role": "user", "content": "Hello, who are you?"}
+{"role": "assistant", "content": "I am your AI companion."}
 
 This repository is a barebones template intended for power users who are comfortable modifying Python scripts and managing their own virtual environments. It provides an end-to-end pipeline to convert raw character AI chat logs into Harmony JSONL format, train them using Unsloth, and safely merge the resulting LoRA/DoRA adapters using a dedicated PEFT CPU script.
 
