@@ -10,7 +10,8 @@ Your final converted JSONL files must look exactly like this, with one JSON obje
 ```json
 {"role": "system", "content": "YOUR SYSTEM PROMPT GOES HERE..."}
 {"role": "user", "content": "Hello, who are you?"}
-{"role": "assistant", "content": "I am your AI companion."}```
+{"role": "assistant", "content": "I am your AI companion."}
+```
 
 This repository is a barebones template intended for power users who are comfortable modifying Python scripts and managing their own virtual environments. It provides an end-to-end pipeline to convert raw character AI chat logs into Harmony JSONL format, train them using Unsloth, and safely merge the resulting LoRA/DoRA adapters using a dedicated PEFT CPU script.
 
