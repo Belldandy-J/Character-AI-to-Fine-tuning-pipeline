@@ -7,6 +7,13 @@ This repository is a barebones template intended for power users who are comfort
 *   **VRAM:** Running full `bf16` (bfloat16) training requires a minimum of 20GB of VRAM. 24GB is highly recommended. If you are riding the 20GB line (e.g., on an AMD RX 7900 XT), **expect OOM (Out of Memory) crashes** during sequence packing or context length spikes. You will need to manually adjust your context length, batch sizes, or consider loading in 4 or 8 bit in `train.py` to stabilize the run.
 *   **Architecture:** This pipeline was engineered and tested on AMD RDNA3 hardware via ROCm. 
 
+### Model Selection: Why Qwen 2.5-VL 7B?
+This template defaults to targeting the **Qwen 2.5-VL 7B** architecture. 
+
+*   **The Hardware Sweet Spot:** At 7 billion parameters, this model represents the absolute bleeding edge of what can comfortably fit inside a 20GB–24GB consumer GPU (like an RX 7900 XT or RTX 3090/4090) during fine-tuning. By utilizing LoRA/DoRA adapters and strategic quantization, you can train it entirely on local hardware without offloading to expensive cloud clusters.
+*   **Multimodal Capabilities:** The "VL" designates Vision-Language. Fine-tuning this specific architecture means your resulting AI companion won't just process text—it will be able to natively perceive and contextualize image inputs (like photographs or screenshots) through your custom API endpoints.
+*   **Prompt Adherence:** Qwen 2.5-VL exhibits exceptionally high adherence to complex system prompts and Harmony JSONL formatting, making it uniquely capable of internalizing personal history, diaries, and relational dynamics instead of just acting like a standard AI assistant.
+
 ### Quantization Guide (When to use 4-bit vs 8-bit)
 If you do not have 20GB+ of VRAM, you must edit `train.py` to enable quantization:
 *   **4-bit Quantization (`load_in_4bit = True`):** Use this if you have 8GB–12GB VRAM. It is the most memory-efficient and fastest to train, but introduces minor to major precision degradation in the model's vocabulary and nuance.
