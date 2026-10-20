@@ -76,6 +76,7 @@ uv pip install torch torchvision torchaudio --index-url [https://download.pytorc
 uv pip install transformers peft datasets trl huggingface_hub
 
 **For Windows:**
+```bash
 # 1. Create the virtual environment named 'venv_peft'
 python -m venv venv_peft
 
@@ -90,7 +91,7 @@ uv pip install torch torchvision torchaudio --index-url [https://download.pytorc
 
 # 5. Install standard, non-patched versions of the training stack
 uv pip install transformers peft datasets trl huggingface_hub
-
+```
 ### Execution Instructions
 
 Once your JSON/TXT exports are in the root directory and your Unsloth environment is active, you can run the pipeline using either the automated orchestrator or by executing the scripts manually.
